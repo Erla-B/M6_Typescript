@@ -1,3 +1,5 @@
+/* I am using css modules, which are applied with {styles.className} in the html. This way the styles can only applied to that specific file */
+
 .container {
     position: relative;
     width: 20em;

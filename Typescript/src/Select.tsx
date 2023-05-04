@@ -6,20 +6,21 @@ export type SelectOption = {
   value: string | number
 }
 
+// For multiple selections
 type MultipleSelectProps = {
   multiple: true
-  value: SelectOption[]
-  onChange: (value: SelectOption[]) => void
+  value: SelectOption[] // Selected option
+  onChange: (value: SelectOption[]) => void // Ability to change that option
 }
 
+// For single selection
 type SingleSelectProps = {
-  multiple?: false
-  value?: SelectOption
-  onChange: (value: SelectOption | undefined) => void
+  multiple?: false // Selected option
+  onChange: (value: SelectOption | undefined) => void // Ability to change that option
 }
 
 type SelectProps = {
-  options: SelectOption[]
+  options: SelectOption[] // List of options
 } & (SingleSelectProps | MultipleSelectProps)
 
 export function Select({ multiple, value, onChange, options }: SelectProps) {
@@ -27,10 +28,11 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
   const [highlightedIndex, setHighlightedIndex] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
 
+  // Clear the value with the x button
   function clearOptions() {
     multiple ? onChange([]) : onChange(undefined)
   }
-
+  // A function to change the value of the selected option
   function selectOption(option: SelectOption) {
     if (multiple) {
       if (value.includes(option)) {
@@ -88,8 +90,8 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
   return (
     <div
       ref={containerRef}
-      onBlur={() => setIsOpen(false)}
-      onClick={() => setIsOpen(prev => !prev)}
+      onBlur={() => setIsOpen(false)} /* Close options when clicking outside */
+      onClick={() => setIsOpen(prev => !prev)} /* Open options when clicking on value */
       tabIndex={0}
       className={styles.container}
     >
@@ -121,7 +123,7 @@ export function Select({ multiple, value, onChange, options }: SelectProps) {
       </button>
       <div className={styles.divider}></div>
       <div className={styles.caret}></div>
-      <ul className={`${styles.options} ${isOpen ? styles.show : ""}`}>
+      <ul className={`${styles.options} ${isOpen ? styles.show : ""}`}> {/* If options are open, use the 'show' style */}
         {options.map((option, index) => (
           <li
             onClick={e => {
